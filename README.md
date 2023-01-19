@@ -7,7 +7,7 @@ We collect the transaction records based on an assumption that for a typical mon
 ![A schematic illustration of a directed K-order subgraph for phishing node classification.](https://s1.ax1x.com/2020/03/27/GCZGmd.md.jpg)
 
 ## Website
-[XBlock](http://xblock.pro/ethereum/) collects the current mainstream blockchain data and is one of the blockchain data platforms with the largest amount of data and the widest coverage in the academic community.
+[XBlock](http://xblock.pro/#/dataset/6) collects the current mainstream blockchain data and is one of the blockchain data platforms with the largest amount of data and the widest coverage in the academic community.
 
 All blockchain datasets have been cleaned and classified in a standardized way, which can be easily downloaded into a standard and consistent format. 
 
@@ -22,5 +22,7 @@ All blockchain datasets have been cleaned and classified in a standardized way, 
 }
 ```
 
-## Contact
-Please contact Dan Lin (lind8@mail2.sysu.edu.cn) for any questions about the dataset.
+## TODO
+Ethan: write GSQL queries for EDA/summary statistics in tg_data_loader.ipynb
+Kazuma: ensure data is loaded into tigergraph, break up tg_data_loader.ipynb into .py files for codebase structure
+Stephen: ensure data is loaded into tigergraph, break up tg_data_loader.ipynb into .py files for codebase structure
