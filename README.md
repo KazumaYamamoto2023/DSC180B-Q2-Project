@@ -1,4 +1,3 @@
-
 ## Description
 This dataset contains transaction records of 445 phishing accounts and 445 non-phishing accounts of Ethereum. We obtain 445 phishing accounts labeled by [Etherscan](etherscan.io) and the same number of randomly selected unlabeled accounts as our objective nodes. The dataset can be used to conduct node classification of financial transaction networks. 
 
@@ -6,12 +5,8 @@ We collect the transaction records based on an assumption that for a typical mon
 
 ![A schematic illustration of a directed K-order subgraph for phishing node classification.](https://s1.ax1x.com/2020/03/27/GCZGmd.md.jpg)
 
-## Website
+## Data Source
 [XBlock](http://xblock.pro/#/dataset/6) collects the current mainstream blockchain data and is one of the blockchain data platforms with the largest amount of data and the widest coverage in the academic community.
-
-All blockchain datasets have been cleaned and classified in a standardized way, which can be easily downloaded into a standard and consistent format. 
-
-## Citation
 ```
 @article{ wu2019tedge,
 	author = "Jiajing Wu and Dan Lin and Qi Yuan and Zibin Zheng",
@@ -23,6 +18,6 @@ All blockchain datasets have been cleaned and classified in a standardized way, 
 ```
 
 ## TODO
-Ethan: write GSQL queries for EDA/summary statistics in tg_data_loader.ipynb
-Kazuma: ensure data is loaded into tigergraph, break up tg_data_loader.ipynb into .py files for codebase structure
-Stephen: ensure data is loaded into tigergraph, break up tg_data_loader.ipynb into .py files for codebase structure
+Ethan: write GSQL queries for EDA/summary statistics in tg_data_loader.ipynb <br />
+Kazuma: ensure data is loaded into TigerGraph, break up tg_data_loader.ipynb into .py files for codebase structure <br />
+Stephen: ensure data is loaded into TigerGraph, break up tg_data_loader.ipynb into .py files for codebase structure
