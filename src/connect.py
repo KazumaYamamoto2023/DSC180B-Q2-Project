@@ -26,12 +26,12 @@ def publish_schema(connection):
 def build_graph(connection):
     # Create a new graph from the global schema
     connection.gsql('''
-        CREATE GRAPH MyGraph2(Wallet, sent_eth, reverse_sent_eth, received_eth, reverse_received_eth)
+        CREATE GRAPH Ethereum(Wallet, sent_eth, reverse_sent_eth, received_eth, reverse_received_eth)
     ''')
 
 def connect_graph(connection, graph_name):
     # Connect to a newly created graph
-    connection.graphname=graph_name"
+    connection.graphname=graph_name
     secret = connection.createSecret()
     connection = tg.TigerGraphConnection(host=config['host'], gsqlSecret=config['secret'], graphname=graph_name)
     connection.getToken(secret)
@@ -41,9 +41,9 @@ def connect_graph(connection, graph_name):
 def load_data(connection, nodes_file, edges_file):
     # Custom loading job that maps the values of nodes.csv to VERTEX attributes
     connection.gsql('''
-        USE GRAPH MyGraph2
+        USE GRAPH Ethereum
         BEGIN
-        CREATE LOADING JOB load_wallets FOR GRAPH MyGraph2 {
+        CREATE LOADING JOB load_wallets FOR GRAPH Ethereum {
         DEFINE FILENAME MyDataSource;
         LOAD MyDataSource TO VERTEX Wallet VALUES($0, $1) USING SEPARATOR=",", HEADER="true", EOL="\\n", QUOTE="double";
         }
@@ -52,9 +52,9 @@ def load_data(connection, nodes_file, edges_file):
 
     # Custom loading job that maps the values of edges.csv to EDGE attributes
     connection.gsql('''
-        USE GRAPH MyGraph2
+        USE GRAPH Ethereum
         BEGIN
-        CREATE LOADING JOB load_transactions FOR GRAPH MyGraph2 {
+        CREATE LOADING JOB load_transactions FOR GRAPH Ethereum {
         DEFINE FILENAME MyDataSource;
         LOAD MyDataSource TO EDGE sent_eth VALUES($1, $0, $2, $3) USING SEPARATOR=",", HEADER="true", EOL="\\n";
         LOAD MyDataSource TO EDGE received_eth VALUES($0, $1, $2, $3) USING SEPARATOR=",", HEADER="true", EOL="\\n";
@@ -67,14 +67,15 @@ def load_data(connection, nodes_file, edges_file):
 
 def main():
     # Nodes/edges files:
-    nodes_file = 'data/nodes.csv'
-    edges_file = 'data/edges.csv'
+    os.chdir('../data/')
+    nodes_file = 'nodes.csv'
+    edges_file = 'edges.csv'
 
     # Build and upload graph to TigerGraph
     conn = connect_db("MyGraph")
     publish_schema(conn)
     build_graph(conn)
-    conn_graph = connect_graph(conn, "MyGraph2")
+    conn_graph = connect_graph(conn, "Ethereum")
     load_data(conn_graph, nodes_file, edges_file)
     return
 
