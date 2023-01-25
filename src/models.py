@@ -1,0 +1,1 @@
+# want to have GCN variant and some other non-graph models to compare/baseline
