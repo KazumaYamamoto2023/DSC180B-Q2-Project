@@ -3,18 +3,19 @@ import pyTigerGraph as tg
 import json
 import os
 
-# import TigerGraph instance config
-os.chdir('../config/')
-with open('tigergraph.json', 'r') as f:
-    config = json.load(f)
-
-def connect_db(graph_name):
+def connect_db(host, secret, graph_name):
+    """
+    Helper function to intialize connection to a TigerGraph GraphStudio graph.
+    """
     # Connection parameters to an initial TigerGraph GraphStudio Graph
-    conn = tg.TigerGraphConnection(host=config['host'], gsqlSecret=config['secret'], graphname=graph_name)
-    conn.getToken(config['secret'])
+    conn = tg.TigerGraphConnection(host=host, gsqlSecret=secret, graphname=graph_name)
+    conn.getToken(secret)
     return conn
 
 def publish_schema(connection):
+    """
+    Helper function to publish the global graph schema to TigerGraph GraphStudio.
+    """
     # Publish Global View Graph Schema
     connection.gsql('''
         USE GLOBAL
@@ -24,21 +25,31 @@ def publish_schema(connection):
     ''')
 
 def build_graph(connection):
+    """
+    Helper function to create a new graph in TigerGraph using the global graph schema.
+    """
     # Create a new graph from the global schema
     connection.gsql('''
         CREATE GRAPH Ethereum(Wallet, sent_eth, reverse_sent_eth, received_eth, reverse_received_eth)
     ''')
 
-def connect_graph(connection, graph_name):
+def connect_graph(connection, host, secret, graph_name):
+    """
+    Helper function to connect to a newly created graph in TigerGraph GraphStudio.
+    """
     # Connect to a newly created graph
     connection.graphname=graph_name
-    secret = connection.createSecret()
-    connection = tg.TigerGraphConnection(host=config['host'], gsqlSecret=config['secret'], graphname=graph_name)
-    connection.getToken(secret)
+    new_secret = connection.createSecret()
+    connection = tg.TigerGraphConnection(host=host, gsqlSecret=secret, graphname=graph_name)
+    connection.getToken(new_secret)
     connection.getSchema()
     return connection
 
 def load_data(connection, nodes_file, edges_file):
+    """
+    Helper function that defines custom loading jobs to map values from nodes/edges files
+    to vertex/edge attributes in our transaction graph.
+    """
     # Custom loading job that maps the values of nodes.csv to VERTEX attributes
     connection.gsql('''
         USE GRAPH Ethereum
@@ -66,16 +77,25 @@ def load_data(connection, nodes_file, edges_file):
     connection.runLoadingJobWithFile(filePath=edges_file, fileTag='MyDataSource', jobName='load_transactions')
 
 def main():
+    """
+    Connect to TigerGraph instance, publish the global graph schema, create a new graph from the global schema,
+    and load wallet and transaction data into the graph.
+    """
+    # Import TigerGraph instance configuration
+    os.chdir('../config/')
+    with open('tigergraph.json', 'r') as f:
+        config = json.load(f)
+    
     # Nodes/edges files:
     os.chdir('../data/')
     nodes_file = 'nodes.csv'
     edges_file = 'edges.csv'
 
-    # Build and upload graph to TigerGraph
-    conn = connect_db("MyGraph")
+    # Publish global schema, create new graph, and upload data to TigerGraph
+    conn = connect_db("MyGraph", config['host'], config['secret'])
     publish_schema(conn)
     build_graph(conn)
-    conn_graph = connect_graph(conn, "Ethereum")
+    conn_graph = connect_graph(conn, "Ethereum", config['host'], config['secret'])
     load_data(conn_graph, nodes_file, edges_file)
     return
 
