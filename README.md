@@ -18,6 +18,6 @@ We collect the transaction records based on an assumption that for a typical mon
 ```
 
 ## TODO
-Ethan: write GSQL queries for EDA/summary statistics in tg_data_loader.ipynb <br />
-Kazuma: ensure data is loaded into TigerGraph, break up tg_data_loader.ipynb into .py files for codebase structure <br />
-Stephen: ensure data is loaded into TigerGraph, break up tg_data_loader.ipynb into .py files for codebase structure
+Ethan: write GSQL queries for graph EDA/summary statistics in tg_data_loading.ipynb <br />
+Kazuma: begin implementing models in models.py<br />
+Stephen: begin implementing models in models.py
