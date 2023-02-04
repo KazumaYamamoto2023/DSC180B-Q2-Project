@@ -1,0 +1,10 @@
+USE GRAPH Ethereum
+CREATE LOADING JOB load_wallets FOR GRAPH Ethereum {
+    DEFINE FILENAME MyDataSource;
+    LOAD MyDataSource TO VERTEX Wallet VALUES($0, $1, _, _, _, _, _, _, _, _, _, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_transactions FOR GRAPH Ethereum {
+    DEFINE FILENAME MyDataSource;
+    LOAD MyDataSource TO EDGE sent_eth VALUES($1, $2, $3, $4, $5) USING SEPARATOR=",", HEADER="true", EOL="\n";
+}

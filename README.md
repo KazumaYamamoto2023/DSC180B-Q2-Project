@@ -5,7 +5,7 @@ This project aims to compare graph-based to non-graph based approaches to fraud 
 * Node2Vec
 * GraphSAGE
 * GCN
-* PC-GCN
+* PC-GNN
 
 Graph exploration, analysis, and model building will be conducted using [TigerGraph](https://tgcloud.io/), an enterprise-scale graph data platform for advanced analytics and machine learning.
 
