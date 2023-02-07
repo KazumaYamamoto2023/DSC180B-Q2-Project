@@ -1,8 +1,6 @@
 USE GRAPH Ethereum
-
 CREATE SCHEMA_CHANGE JOB build_schema FOR GRAPH Ethereum {
-    ADD VERTEX Wallet (PRIMARY_ID id INT, label FLOAT, in_degree INT, out_degree INT, send_min DOUBLE, total_sent DOUBLE, recv_min DOUBLE, recv_amount DOUBLE, pagerank DOUBLE, is_train BOOL, is_test BOOL, is_valid BOOL) WITH primary_id_as_attribute="true";
+    ADD VERTEX Wallet (PRIMARY_ID id INT, label FLOAT, has_label BOOL, is_train BOOL, is_test BOOL, in_degree INT, out_degree INT, send_min DOUBLE, total_sent DOUBLE, recv_min DOUBLE, recv_amount DOUBLE, pagerank DOUBLE) WITH primary_id_as_attribute="true";
     ADD DIRECTED EDGE sent_eth (from Wallet, to Wallet, amount FLOAT, n_transactions INT, timestamp INT) WITH REVERSE_EDGE="reverse_sent_eth";
 }
-
 RUN SCHEMA_CHANGE JOB build_schema

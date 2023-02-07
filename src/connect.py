@@ -77,3 +77,29 @@ def add_features():
     }
     print(json.dumps(f.runAlgorithm("tg_pagerank",tg_pagerank_params)[0]['@@top_scores_heap'], indent=2))
     return
+
+def get_data(type="PyG"):
+    """
+    Helper function to connect to the TigerGraph database instance and retrieve
+    the transaction graph and return it in 'PyG' (default) or 'dataframe' format.
+    """
+    # import TigerGraph instance config
+    with open('config/tigergraph.json', 'r') as f:
+        config = json.load(f)
+
+    # Connection parameters
+    hostName = config['host']
+    secret = config['secret']
+    conn = tg.TigerGraphConnection(host=hostName, gsqlSecret=secret, graphname="Ethereum")
+    conn.getToken(secret)
+
+    # load graph from database as DataFrame
+    graph_loader = conn.gds.graphLoader(
+        num_batches=1,
+        v_in_feats=["in_degree","out_degree","total_sent","send_min","recv_amount","recv_min","pagerank"],
+        v_out_labels=['label'],
+        v_extra_feats=['is_train','is_test'],
+        output_format = type
+    )
+    data = graph_loader.data[0]
+    return data

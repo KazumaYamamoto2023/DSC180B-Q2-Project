@@ -1,18 +1,13 @@
 # Graph-Based Appraches to Fraud Detection in Ethereum Transaction Networks
-This project aims to compare graph-based to non-graph based approaches to fraud detection in Ethereum transaction networks. We will predict whether a given Ethereum wallet in the transaction graph is fraudulent or non-fraudulent, given the wallet's transaction history in the network. The performance of the following models will be compared in this prediction task:
+This project aims to compare graph-based to non-graph based approaches to fraud detection in Ethereum transaction networks. We will predict whether a given Ethereum wallet in the transaction graph is fraudulent or non-fraudulent, given the wallet's transaction history in the network. The performance of the following classifiers will be compared in this prediction task:
 
-* k-Nearest Neighbors
-* Node2Vec
+* Support Vector Machine
+* Graph Convolutional Network
+* Graph Attention Network
 * GraphSAGE
-* GCN
-* PC-GNN
+* Topology Adaptive Graph Convolutional Network
 
 Graph exploration, analysis, and model building will be conducted using [TigerGraph](https://tgcloud.io/), an enterprise-scale graph data platform for advanced analytics and machine learning.
-
-## TODO
-* Ethan: write GSQL queries for graph EDA/summary statistics in tg_data_loading.ipynb <br />
-* Kazuma: begin implementing models in models.py <br />
-* Stephen: begin implementing models in models.py
 
 ## Data Description
 This dataset contains transaction records of 445 phishing accounts and 445 non-phishing accounts of Ethereum. We obtain 445 phishing accounts labeled by [Etherscan](etherscan.io) and the same number of randomly selected unlabeled accounts as our objective nodes. The dataset can be used to conduct node classification of financial transaction networks. 
