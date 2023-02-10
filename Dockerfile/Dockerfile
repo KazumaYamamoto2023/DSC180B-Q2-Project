@@ -6,9 +6,6 @@ RUN pip install --upgrade pip \
         pandas \
         torch \
         pyTigerGraph \
-        os \
-        warnings\
-        json \
         numpy \
         scikit-learn \
         matplotlib \
