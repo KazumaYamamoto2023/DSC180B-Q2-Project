@@ -25,7 +25,7 @@ def build_schema():
     print(conn.gsql(open("gsql/load_data.gsql", "r").read()))
 
     # Upload graph data to TigerGraph
-    print(conn.runLoadingJobWithFile('data/nodes.csv', "MyDataSource", "load_wallets"))
+    print(conn.runLoadingJobWithFile('data/nodes_train_test_split.csv', "MyDataSource", "load_wallets"))
     print(conn.runLoadingJobWithFile('data/edges.csv', "MyDataSource", "load_transactions"))
 
     # Print graph schema
@@ -63,8 +63,8 @@ def add_features():
 
     # Install and run GSQL query for total/minimum ETH sent/received
     f = conn.gds.featurizer()
-    f.installAlgorithm("get_total_amount", query_path="gsql/get_total_amount.gsql")
-    print(json.dumps(f.runAlgorithm("get_total_amount", custom_query=True), indent=2))
+    f.installAlgorithm("summarize_amounts", query_path="gsql/summarize_amounts.gsql")
+    print(json.dumps(f.runAlgorithm("summarize_amounts", custom_query=True), indent=2))
 
     # Install and run GSQL query for pagerank
     f = conn.gds.featurizer()
@@ -96,10 +96,12 @@ def get_data(type="PyG"):
     # load graph from database as DataFrame
     graph_loader = conn.gds.graphLoader(
         num_batches=1,
-        v_in_feats=["in_degree","out_degree","total_sent","send_min","recv_amount","recv_min","pagerank"],
+        v_in_feats=["in_degree","out_degree","total_sent","min_sent","max_sent","avg_sent","total_recv","min_recv","max_recv","avg_recv","pagerank"],
         v_out_labels=['label'],
         v_extra_feats=['is_train','is_test'],
         output_format = type
     )
-    data = graph_loader.data[0]
+    data = graph_loader.data
+    if type == 'dataframe':
+        data = graph_loader.data[0]
     return data

@@ -1,7 +1,7 @@
 USE GRAPH Ethereum
 CREATE LOADING JOB load_wallets FOR GRAPH Ethereum {
     DEFINE FILENAME MyDataSource;
-    LOAD MyDataSource TO VERTEX Wallet VALUES($1, $2, $3, $4, $5, _, _, _, _, _, _, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+    LOAD MyDataSource TO VERTEX Wallet VALUES($1, $2, $3, $4, $5, _, _, _, _, _, _, _, _, _, _, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
 }
 END
 

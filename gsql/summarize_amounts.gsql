@@ -1,0 +1,35 @@
+CREATE QUERY summarize_amounts(STRING min_sent="min_sent", STRING max_sent="max_sent", STRING avg_sent="avg_sent", STRING total_sent="total_sent", STRING min_recv="min_recv", STRING max_recv="max_recv", STRING avg_recv="avg_recv", STRING total_recv = "total_recv") { 
+      MinAccum<DOUBLE> @min_sent;
+      MaxAccum<DOUBLE> @max_sent;
+      AvgAccum @avg_sent;
+      SumAccum<DOUBLE> @total_sent;
+      MinAccum<DOUBLE> @min_recv;
+      MaxAccum<DOUBLE> @max_recv;
+      AvgAccum @avg_recv;
+      SumAccum<DOUBLE> @total_recv;
+
+      all = {ANY};
+      neighbors1 = SELECT p FROM all:p - (sent_eth:e) - :q
+      ACCUM p.@min_sent += e.amount, q.@min_recv += e.amount,
+            p.@max_sent += e.amount, q.@max_recv += e.amount,
+            p.@avg_sent += e.amount, q.@avg_recv += e.amount,
+            p.@total_sent += e.amount, q.@total_recv += e.amount;
+
+      res = SELECT p FROM all:p
+
+      POST-ACCUM 
+            p.setAttr(min_recv, p.@min_recv),
+            p.setAttr(max_recv, p.@max_recv),
+            p.setAttr(avg_recv, p.@avg_recv),
+            p.setAttr(total_recv, p.@total_recv),
+            p.setAttr(min_sent, p.@min_sent),
+            p.setAttr(max_sent, p.@max_sent),
+            p.setAttr(avg_sent, p.@avg_sent),
+            p.setAttr(total_sent, p.@total_sent),
+            IF (p.in_degree == 0) THEN  p.setAttr(min_recv, 0) END,
+            IF (p.total_sent == 0) THEN  p.setAttr(max_sent, 0) END,
+            IF (p.total_recv == 0) THEN  p.setAttr(max_recv, 0) END,
+            IF (p.out_degree == 0) THEN  p.setAttr(min_sent, 0) END;
+            
+      PRINT "Success!";
+}
