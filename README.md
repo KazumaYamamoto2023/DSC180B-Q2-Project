@@ -1,13 +1,27 @@
-# Graph-Based Appraches to Fraud Detection in Ethereum Transaction Networks
-This project aims to compare graph-based to non-graph based approaches to fraud detection in Ethereum transaction networks. We will predict whether a given Ethereum wallet in the transaction graph is fraudulent or non-fraudulent, given the wallet's transaction history in the network. The performance of the following classifiers will be compared in this prediction task:
+# Graph-Based Deep Learning for Fraud Detection in Ethereum Transaction Networks
+This project aims to compare graph-based to non-graph based algorithms for fraud detection in Ethereum transaction networks. We will predict whether a given Ethereum wallet in the transaction graph is fraudulent or non-fraudulent, given the wallet's transaction history in the network.
 
-* Support Vector Machine
-* Graph Convolutional Network
-* Graph Attention Network
-* GraphSAGE
-* Topology Adaptive Graph Convolutional Network
+Graph exploration, analysis, and model building will be conducted using [TigerGraph](https://tgcloud.io/), an enterprise-scale graph data platform for advanced analytics and machine learning. 
 
-Graph exploration, analysis, and model building will be conducted using [TigerGraph](https://tgcloud.io/), an enterprise-scale graph data platform for advanced analytics and machine learning.
+Model performance was determined by taking the average classification accuracy on the testing set over 10 model runs. The resulting classifier performance for this prediction task are as follows:
+
+* Support Vector Machine (~60.5%)
+* Graph Convolutional Network (~79.6%)
+* Graph Attention Network (~78.5%)
+* GraphSAGE (~81.9%)
+* Node2Vec (~76.6%)
+* Topology Adaptive Graph Convolutional Network (~82.2%)
+
+## Getting Started
+1. Create a free [TigerGraph](https://tgcloud.io/) account and launch a free cluster. Save the cluster's domain name in `config/tigergraph.config`.
+
+2. Open [GraphStudio](https://tgcloud.io/app/tools/GraphStudio/) and create a new graph named 'Ethereum'
+
+3. Open [AdminPortal](https://tgcloud.io/app/tools/Admin%20Portal/) and navigate to the "Management" tab and select "Users." Generate a secret alias and secret value, and save the secret value in `config/tigergraph.config`.
+
+4. Run `python run.py` to connect to the TigerGraph database instance, build the graph schema, load the dataset, and evaluate the models
+
+    * This process is detailed in `notebooks/tg_data_loading.ipynb`
 
 ## Data Description
 This dataset contains transaction records of 445 phishing accounts and 445 non-phishing accounts of Ethereum. We obtain 445 phishing accounts labeled by [Etherscan](etherscan.io) and the same number of randomly selected unlabeled accounts as our objective nodes. The dataset can be used to conduct node classification of financial transaction networks. 
