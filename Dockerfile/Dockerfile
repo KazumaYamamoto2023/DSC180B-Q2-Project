@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:python-3.8 
+FROM ucsdets/scipy-ml-notebook:2023.1-stable
 
 RUN pip install --upgrade pip \
     && pip install \
