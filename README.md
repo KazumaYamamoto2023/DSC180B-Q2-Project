@@ -13,11 +13,11 @@ Model performance was determined by taking the average classification accuracy o
 * Topology Adaptive Graph Convolutional Network (~82.2%)
 
 ## Getting Started
-1. Create a free [TigerGraph](https://tgcloud.io/) account and launch a free cluster. Save the cluster's domain name in `config/tigergraph.config`.
+1. Create a free [TigerGraph](https://tgcloud.io/) account and launch a free cluster. Save the cluster's domain name in `config/tigergraph.json`.
 
 2. Open [GraphStudio](https://tgcloud.io/app/tools/GraphStudio/) and create a new graph named 'Ethereum'
 
-3. Open [AdminPortal](https://tgcloud.io/app/tools/Admin%20Portal/) and navigate to the "Management" tab and select "Users." Generate a secret alias and secret value, and save the secret value in `config/tigergraph.config`.
+3. Open [AdminPortal](https://tgcloud.io/app/tools/Admin%20Portal/) and navigate to the "Management" tab and select "Users." Generate a secret alias and secret value, and save the secret value in `config/tigergraph.json`.
 
 4. Run `python run.py` to connect to the TigerGraph database instance, build the graph schema, load the dataset, and evaluate the models
 
