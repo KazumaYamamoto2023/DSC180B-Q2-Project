@@ -2,7 +2,7 @@
 import pyTigerGraph as tg
 import json
 
-def build_schema():
+def build_schema(nodes_file, edges_file):
     """
     Prior to running this function, please create a graph called 'Ethereum' in TigerGraph GraphStudio,
     and create a gsqlSecret through TigerGraph's AdminPortal. This function will connect to TigerGraph instance,
@@ -25,8 +25,8 @@ def build_schema():
     print(conn.gsql(open("gsql/load_data.gsql", "r").read()))
 
     # Upload graph data to TigerGraph
-    print(conn.runLoadingJobWithFile('data/nodes_train_test_split.csv', "MyDataSource", "load_wallets"))
-    print(conn.runLoadingJobWithFile('data/edges.csv', "MyDataSource", "load_transactions"))
+    print(conn.runLoadingJobWithFile(nodes_file, "MyDataSource", "load_wallets"))
+    print(conn.runLoadingJobWithFile(edges_file, "MyDataSource", "load_transactions"))
 
     # Print graph schema
     print("Vertex Counts")

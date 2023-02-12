@@ -1,10 +1,22 @@
 from src import connect, baseline, gnn_models, node2vec, ta_gcn
+import sys
 import warnings
 warnings.filterwarnings("ignore")
 
 def main():
+    # 0. Collect command line arguments
+    if len(sys.argv) != 2:
+        sys.exit("Use: python run.py <dataset>")
+    datasets = ['eth', 'test']
+    dataset = sys.argv[1]
+    if dataset not in datasets:
+        sys.exit("wrong dataset name")
+
     # 1. Connect to TigerGraph database instance and upload graph schema
-    connect.build_schema()
+    if dataset == 'test':
+        connect.build_schema('test/testdata/test_nodes.csv', 'test/testdata/test_edges.csv')
+    else:
+        connect.build_schema('data/nodes_train_test_split.csv', 'data/edges.csv')
 
     # 2. Add node features with GSQL queries
     connect.add_features()

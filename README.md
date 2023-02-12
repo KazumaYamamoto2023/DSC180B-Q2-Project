@@ -19,9 +19,11 @@ Model performance was determined by taking the average classification accuracy o
 
 3. Open [AdminPortal](https://tgcloud.io/app/tools/Admin%20Portal/) and navigate to the "Management" tab and select "Users." Generate a secret alias and secret value, and save the secret value in `config/tigergraph.json`.
 
-4. Run `python run.py` to connect to the TigerGraph database instance, build the graph schema, load the dataset, and evaluate the models
+4. Run `python run.py eth` to connect to the TigerGraph database instance, build the graph schema, load the dataset, and evaluate the models
 
     * This process is detailed in `notebooks/tg_data_loading.ipynb`
+    * Run `python run.py test` to evaluate the models on a subset of the Ethereum transaction network
+
 
 ## Data Description
 This dataset contains transaction records of 445 phishing accounts and 445 non-phishing accounts of Ethereum. We obtain 445 phishing accounts labeled by [Etherscan](etherscan.io) and the same number of randomly selected unlabeled accounts as our objective nodes. The dataset can be used to conduct node classification of financial transaction networks. 
