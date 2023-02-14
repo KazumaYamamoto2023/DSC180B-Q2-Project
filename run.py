@@ -31,6 +31,14 @@ def main():
     print("---------------------------------------------------------")
     ################## Avg Testing Accuracy: 60.5%  ##################
 
+    ################ K-Nearest Neighbors #################
+    df = connect.get_data('dataframe')
+    knn_acc = baseline.evaluate_KNN(df)
+    print("---------------------------------------------------------")
+    print("Baseline KNN Testing Accuracy: " + str(knn_acc))
+    print("---------------------------------------------------------")
+    ################## Avg Testing Accuracy: ______  ##################
+
 
     ################### Graph Convolution Netowrk ####################
     gnn_models.set_seed(123)
