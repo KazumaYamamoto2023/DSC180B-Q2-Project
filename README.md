@@ -6,6 +6,8 @@ Graph exploration, analysis, and model building will be conducted using [TigerGr
 Model performance was determined by taking the average classification accuracy on the testing set over 10 model runs. The resulting classifier performance for this prediction task are as follows:
 
 * Support Vector Machine (~60.5%)
+* K-Nearest Neighbors (~74.6%)
+* XGBoost (~81.6%)
 * Graph Convolutional Network (~79.6%)
 * Graph Attention Network (~78.5%)
 * GraphSAGE (~81.9%)

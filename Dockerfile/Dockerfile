@@ -10,3 +10,4 @@ RUN pip install --upgrade pip \
         scikit-learn \
         matplotlib \
         enum34==1.1.8 \
+        xgboost \
