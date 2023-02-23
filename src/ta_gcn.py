@@ -9,7 +9,7 @@ class TA_GCN(torch.nn.Module):
         self.conv2 = TAGConv(128, 2, K=2, aggr='min')
         self.data = data
 
-    def forward(self):
+    def forward(self, x, edge_index):
         x, edge_index = self.data.x.float(), self.data.edge_index
         x = F.relu(self.conv1(x, edge_index))
         x = F.dropout(x, training=self.training)
@@ -25,7 +25,7 @@ def initialize(data):
 def train(data, model, optimizer):
     model.train()
     optimizer.zero_grad()
-    inp = model()[data.is_train]
+    inp = model(data.x, data.edge_index)[data.is_train]
     out = data.y[data.is_train].long()
     F.nll_loss(inp, out).backward()
     optimizer.step()
@@ -33,7 +33,7 @@ def train(data, model, optimizer):
 @torch.no_grad()
 def test(data, model):
     model.eval()
-    out, accs = model(), []
+    out, accs = model(data.x, data.edge_index), []
     for _, mask in data('is_train','is_test'):
         pred = out[mask].argmax(1)
         acc = pred.eq(data.y[mask]).sum().item() / mask.sum().item()

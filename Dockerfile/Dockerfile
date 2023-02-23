@@ -5,9 +5,11 @@ RUN pip install --upgrade pip \
         ipython[all] \
         pandas \
         torch \
+        pyg \
         pyTigerGraph \
         numpy \
         scikit-learn \
         matplotlib \
         enum34==1.1.8 \
         xgboost \
+        networkx \

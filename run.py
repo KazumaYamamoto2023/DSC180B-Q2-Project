@@ -1,4 +1,4 @@
-from src import connect, baseline, gnn_models, node2vec, ta_gcn
+from src import connect, baseline, gnn_models, node2vec, ta_gcn, visualize
 import sys
 import warnings
 warnings.filterwarnings("ignore")
@@ -24,7 +24,7 @@ def main():
     # 3. Train models on transaction graph and evaluate performance
 
     # ################ Baseline Support Vector Machine #################
-    df = connect.get_data('dataframe')
+    # df = connect.get_data('dataframe')
     # svm_acc = baseline.evaluate_baseline(df)
     # print("---------------------------------------------------------")
     # print("Baseline SVM Testing Accuracy: " + str(svm_acc))
@@ -41,16 +41,16 @@ def main():
 
 
     ########################### XGBoost ##############################
-    xgb_acc = baseline.evaluate_xgb(df)
-    print("---------------------------------------------------------")
-    print("Baseline XGBoost Testing Accuracy: " + str(xgb_acc))
-    print("---------------------------------------------------------")
+    # xgb_acc = baseline.evaluate_xgb(df)
+    # print("---------------------------------------------------------")
+    # print("Baseline XGBoost Testing Accuracy: " + str(xgb_acc))
+    # print("---------------------------------------------------------")
     ################## Avg Testing Accuracy: 81.6%  #################
 
 
     # ################### Graph Convolution Netowrk ####################
-    # gnn_models.set_seed(123)
-    # data = connect.get_data()
+    gnn_models.set_seed(123)
+    data = connect.get_data()
     # data, gcn, optimizer = gnn_models.initialize(data, 'gcn')
     # gnn_models.train(data, gcn, optimizer)
     # gcn_acc = gnn_models.evaluate(data, gcn)
@@ -91,11 +91,11 @@ def main():
 
 
     # ########################### TA-GCN ###############################
-    # data, model, optimizer = ta_gcn.initialize(data)
-    # ta_gcn_acc = ta_gcn.evaluate(data, model, optimizer)
-    # print("---------------------------------------------------------")
-    # print("TA-GCN Testing Accuracy: " + str(ta_gcn_acc))
-    # print("---------------------------------------------------------")
+    data, model, optimizer = ta_gcn.initialize(data)
+    ta_gcn_acc = ta_gcn.evaluate(data, model, optimizer)
+    print("---------------------------------------------------------")
+    print("TA-GCN Testing Accuracy: " + str(ta_gcn_acc))
+    print("---------------------------------------------------------")
     # ################## Avg Testing Accuracy: 82.2%  ##################
 
     return
