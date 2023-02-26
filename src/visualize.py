@@ -23,6 +23,16 @@ def model_comparison():
     return df
 
 
+def sample_vertex():
+    """
+    Helper function to randomly sample the index of
+    a fraudulent wallet in the transaction network.
+    """
+    data = get_data(type='dataframe')
+    fraud_idx = data[data['label']==1].sample(1)
+    return int(fraud_idx.index[0])
+
+
 def explainability(data, model, node_idx):
     """
     Helper function to create a model explanation object
@@ -42,7 +52,7 @@ def explainability(data, model, node_idx):
         )
     )
     node_index = node_idx
-    explanation = explainer(data.x.float(), data.edge_index, index=node_index) ### error
+    explanation = explainer(data.x.float(), data.edge_index, index=node_index)
     print(f'Generated explanations in {explanation.available_explanations}')
     return explanation
 
@@ -120,15 +130,3 @@ def visualize_subgraph(explanation, data, node_idx, outpath):
     plt.legend(handles=legend_elements, loc='best')
     plt.savefig(outpath)
     return ax, G
-
-
-def sample_vertex():
-    """
-    Helper function to randomly sample the index of
-    a fraudulent wallet in the transaction network.
-    """
-    data = get_data(type='dataframe')
-    fraud_idx = data[data['label']==1].sample(1)
-    return int(fraud_idx.index[0])
-
-
