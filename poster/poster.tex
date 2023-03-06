@@ -335,9 +335,6 @@ sharp corners=south, #1}
   \mdseries
   \fontsize{40pt}{40pt}\selectfont
   {Stephen Gelinas~~$\cdot$~~\texttt{sgelinas@ucsd.edu}~~$\cdot$~~Kazuma Yamamoto~~$\cdot$~~\texttt{kayamamo@ucsd.edu}~~$\cdot$~~Ethan Zhou~~$\cdot$~~\texttt{ezhou@ucsd.edu}} 
-  % \\[0.2in] %% SC
-  % \color{affiliationtextcol} \large{UC San Diego} %% SC
-  %\includegraphics[width=0.1\linewidth]{figure/tg_logo_full.png}
   \vspace{0.6in}
 \end{topbox}
 
@@ -347,7 +344,7 @@ sharp corners=south, #1}
 % Begin body of poster
 
 
-\fontsize{40pt}{40pt}\selectfont
+\fontsize{45pt}{45pt}\selectfont
 
 \begin{adjmulticols*}{3}{0.5in}{0.5in}
 \color{bodytextcol}
@@ -371,16 +368,12 @@ sharp corners=south, #1}
 \item Graph neural networks take advantage of learning the structural information within a graph and embedding information about neighboring nodes in the network.
 \item This allows for graph models to heavily outperform traditional learning algorithms.
 
-%\item 26K authentic memes from \texttt{r/meme} subreddit (authentic memes)
-%\item 15K non-meme image-with-text data (COCO-Text) as negative sample for training (so not simply a classifier for images with or without text)
-%\item 26K images from IRA on Twitter (coordinated memes if classified as meme)
 \end{itemize} 
 \end{adjustwidth}
 
 
 \section{Data Source}
 \begin{adjustwidth}{0.1in}{0in}
-%\begin{itemize}[topsep=0pt,itemsep=0ex,partopsep=0ex,parsep=0ex]
 The \href{http://xblock.pro/#/dataset/6}{XBlock} dataset containing transactions of 890 Ethereum accounts
 \begin{enumerate}[topsep=0pt,itemsep=0ex,partopsep=0ex,parsep=0ex]
 \item Collect subgraphs by K-order sampling with K-in = 1, K-out = 3 for each of the 890 objective nodes 
@@ -388,43 +381,53 @@ The \href{http://xblock.pro/#/dataset/6}{XBlock} dataset containing transactions
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{figure/k-order_sampling.png}
-	\caption{How our data was sourced}
+	\caption{Schematic Illustration of a Directed K-Order Subgraph for Node Classification}
 \end{figure}
-\linebreak
 On the figure above, based on the assumption that a typical money transfer flow is centered on a phishing node, the previous node of the phishing node may be a victim, and the next one to three nodes may be the bridge nodes with money laundering behaviors.
 
 \end{enumerate}
-%\item Classify IRA images into memes vs. non-memes (test accuracy $>0.97$)
-%\item Extract visual embeddings jointly for both authentic memes (Reddit) and coordinated memes (IRA) using DeepCluster \href{http://arxiv.org/abs/1807.05520}{(Caron et al. 2019)}\\
-%{\centering \includegraphics[width=.8\linewidth]{figure/filler.png}}
-%\item Cluster memes based on visual embeddings using K-means 
-%\item Label the clusters and compare between authentic/coordinated
 \end{adjustwidth}
-\section{Recent Advancements in the Field}
-\begin{adjustwidth}{0.1in}{0in}
-\begin{itemize}[topsep=0pt,itemsep=0ex,partopsep=0ex,parsep=0ex]
-\item The field of graph data science is relatively new and very active, and key advancements happen very frequently
-\item For example, all of the models we used were developed in the last several years. GCN and N2V are from 2016, GAT, GraphSage, and TA-GCN are from 2017.
-\end{itemize} 
-\end{adjustwidth}
-
 
 \columnbreak
+\begin{figure}
+	\centering
+	\begin{minipage}{0.45\linewidth}
+		\includegraphics[width=0.9\linewidth]{figure/tigergraph_logo.png}
+	\end{minipage}\hfill
+\end{figure}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{figure/graph_schema.png}
 	\caption{An example of how our graph schema looks, at the basic level}
 \end{figure}
-\linebreak
-\begin{figure}
+\begin{table}
 	\centering
-	\includegraphics[width=0.65\linewidth]{figure/table_data.png}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		Model & Avg. Testing Accuracy & Type \\
+		\hline \hline
+		TA-GCN & 82.2 & Graph \\ 
+		\hline
+ 		GraphSage & 81.9 & Graph \\ 
+		\hline
+		XGBoost & 81.6 & Tree \\ 
+		\hline
+		GCN & 79.6 & Graph \\ 
+		\hline
+		GAT & 78.5 & Graph \\ 
+		\hline
+		Node2Vec & 76.6 & Graph \\ 
+		\hline
+		k-NN & 74.6 & Traditional \\ 
+		\hline
+		SVM & 60.5 & Traditional \\ 
+		\hline
+	\end{tabular}
 	\caption{Performance of each model}
-\end{figure}
-\linebreak
+\end{table}
 \begin{figure}
 	\centering
-	\includegraphics[width=0.75\linewidth]{figure/fake_importance.png}
+	\includegraphics[width=0.75\linewidth]{figure/tagcn_feat_imp.png}
 	\caption{The relative importance of each feature to our models}
 \end{figure}
 \columnbreak
@@ -435,13 +438,6 @@ On the figure above, based on the assumption that a typical money transfer flow 
 \item The transaction network is represented as a directed graph, where each node represents a wallet in the network, and each directed edge between wallets represents the transfer of currency.
 \item Features are assigned to each node, including in-degree, out-degree, total transaction value, and more.
 \item The fraud detection task is ran as a node classification problem, and the performance of the models will be evaluated.
-
-
-%\item Classify IRA images into memes vs. non-memes (test accuracy $>0.97$)
-%\item Extract visual embeddings jointly for both authentic memes (Reddit) and coordinated memes (IRA) using DeepCluster \href{http://arxiv.org/abs/1807.05520}{(Caron et al. 2019)}\\
-%{\centering \includegraphics[width=.8\linewidth]{figure/filler.png}}
-%\item Cluster memes based on visual embeddings using K-means 
-%\item Label the clusters and compare between authentic/coordinated
 \end{itemize} 
 \end{adjustwidth}
 
@@ -452,104 +448,42 @@ On the figure above, based on the assumption that a typical money transfer flow 
 \item Graph-based features improves overall model performance for both graph-based and non-graph-based models.
 \item Graph neural networks, specifically TA-GCN, performed best in the fraud detection task, as GNNs are able to learn the networks’ structural information.
 \item The most important features for predicting  fraudulent wallets are pagerank and the maximum amount of ETH sent between wallets.
-
-
-%\item Latent visual embeddings reveal similarity between memes
-%\item Authentic and coordinated memes share most visual themes
-%\item Coordinated IRA memes more military, gender, quotes
-%\item Authentic Reddit memes more movie characters, comics
-%\item IRA accounts are not widely utilizing popular meme schemes in the US
-%\item Logistic regression on visual embedding discern IRA with $F_1=0.84$
 \end{itemize} 
 \end{adjustwidth}
 
-\section{References}
+
+\section{Recent Advancements in the Field}
 \begin{adjustwidth}{0.1in}{0in}
-\begin{enumerate}[topsep=0pt,itemsep=0ex,partopsep=0ex,parsep=0ex]
-\item Alin Deutsch, Yu Xu, Mingxi Wu, Victor Lee: “TigerGraph: A Native MPP Graph Database”, 2019; arXiv:1901.08248
-\item Jiajing Wu, Qi Yuan, Dan Lin, Wei You, Weili Chen, Chuan Chen, Zibin Zheng: “Who Are the Phishers? Phishing Scam Detection on Ethereum via Network Embedding”, 2019, TSMC.2020.3016821; arXiv:1911.09259
-\item Jiajing Wu, Dan Lin, Zibin Zheng, Qi Yuan: “T-EDGE: Temporal Weighted MultiDiGraph Embedding for Ethereum Transaction Network Analysis”, 2019, Front. Phys. 8:204 (2020); arXiv:1905.08038
-\item Panpan Li, Yunyi Xie, Xinyao Xu, Jiajun Zhou, Qi Xuan: “Phishing Fraud Detection on Ethereum using Graph Neural Network”, 2022; arXiv:2204.08194
-\item Jian Du, Shanghang Zhang, Guanhang Wu, Jose M. F. Moura, Soummya Kar: “Topology Adaptive Graph Convolutional Networks”, 2017; arXiv:1710.10370
-\item Mark Cheung, John Shi, Lavender Yao Jiang, Oren Wright, José M. F. Moura: “Pooling in Graph Convolutional Neural Networks”, 2020; arXiv:2004.03519
-
-
-
-%\item Latent visual embeddings reveal similarity between memes
-%\item Authentic and coordinated memes share most visual themes
-%\item Coordinated IRA memes more military, gender, quotes
-%\item Authentic Reddit memes more movie characters, comics
-%\item IRA accounts are not widely utilizing popular meme schemes in the US
-%\item Logistic regression on visual embedding discern IRA with $F_1=0.84$
-\end{enumerate} 
+\begin{itemize}[topsep=0pt,itemsep=0ex,partopsep=0ex,parsep=0ex]
+\item The field of graph data science is relatively new and very active, and key advancements happen very frequently
+\item For example, all of the models we used were developed in the last several years. GCN and N2V are from 2016, GAT, GraphSage, and TA-GCN are from 2017.
+\end{itemize} 
 \end{adjustwidth}
 
-\linebreak
+
+\section{Future Works}
+\begin{adjustwidth}{0.1in}{0in}
+\begin{itemize}[topsep=0pt,itemsep=0ex,partopsep=0ex,parsep=0ex]
+\item For further analysis we would like to explore more types of algorithms that require different data structures
+\item We would also like to try to combine some of the existing models to develop a model specialized for certain tasks, such as Ethereum
+\item For example, we could look deeper into why a tree-based model such as XGBoost is so adept at learning this data structure, and utilize it to improve accuracy.
+\end{itemize} 
+\end{adjustwidth}
+
 
 \begin{figure}
 	\centering
 	\begin{minipage}{0.45\linewidth}
 		\centering
 		\includegraphics[width=0.6\linewidth]{figure/qrcode.png}
+		\\QR Code for our github
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\linewidth}
 		\centering
-		\includegraphics[width=0.9\linewidth]{figure/tigergraph_logo.png}
+		\includegraphics[width=0.6\linewidth]{figure/qrcode2.png}
+		\\QR Code for our Website
 	\end{minipage}\hfill
 \end{figure}
-
-\begin{figure}
-	\end{figure}
-%\section{Example Clusters}
-%\begin{adjustwidth}{0.1in}{0in}
-%\begin{figure}
-%    \includegraphics[width=\linewidth]{figure/filler.png}
-%    \\[1cm]
- %   \includegraphics[width=\linewidth]{figure/filler.png}
-%\end{figure}
-%\vspace{-3cm}
-%\end{adjustwidth}
-
-%\columnbreak
-
-% \begin{minipage}{.32\textwidth}
-  %\begin{figure}
-    %\vspace{2cm} \hspace{2.5cm} 
-    %\includegraphics[width=1.25\linewidth]{figure/filler.png}
-  %\end{figure}
-% \end{minipage}
-
-
-%\begin{adjustwidth}{0.1in}{0in}
-%\vspace{1.25cm}
-%\begin{figure}
-   % \includegraphics[width=\linewidth]{figure/filler.png}
-    %\\[1cm]
-    %\includegraphics[width=\linewidth]{figure/filler.png}
-%\end{figure}
-%\vspace{-3cm}
-%\end{adjustwidth}
-
-
-%\columnbreak
-
-
-% \begin{minipage}{.2\textwidth}
-  %\begin{figure}
-    %\centering
-    %\hspace{2cm}
-    %\includegraphics[width=.15\linewidth]{figure/filler.png}
-    %Comments/feedbacks
-    %\hspace{5cm}
-    %\includegraphics[width=.63\linewidth]{figure/filler.png}
-  %\end{figure}
-% \end{minipage}
-
-
-
-
-%\hrule
-\printbibliography[heading=none]
 
 
 \end{adjmulticols*}
