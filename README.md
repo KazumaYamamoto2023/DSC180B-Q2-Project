@@ -59,6 +59,7 @@ Model performance was determined by taking the average classification accuracy o
 
 `root`
 * `run.py:` Python file with main method to run the project code
+* `Dockerfile:` Dockerfile with dependencies to bulid docker image to deploy containerized environment
 
 `gsql`
 * `build_schema.gsql:` GSQL query to create transaction network graph schema in TigerGraph
@@ -99,4 +100,4 @@ We collect the transaction records based on an assumption that for a typical mon
 ---
 [Project Website](https://srgelinas.github.io/dsc180b_eth_fraud/)
 
-[Demo Video](https://srgelinas.github.io/dsc180b_eth_fraud/)
+[Demo Video](https://www.youtube.com/watch?v=C1ls5UdUcrc&ab_channel=StephenGelinas)
