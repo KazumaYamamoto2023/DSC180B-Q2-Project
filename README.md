@@ -100,4 +100,4 @@ We collect the transaction records based on an assumption that for a typical mon
 ---
 [Project Website](https://srgelinas.github.io/dsc180b_eth_fraud/)
 
-[Demo Video](https://www.youtube.com/watch?v=C1ls5UdUcrc&ab_channel=StephenGelinas)
+[Demo Video](https://youtu.be/PwcJu8Wz2LE)
