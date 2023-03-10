@@ -69,6 +69,8 @@ def feature_importance(explanation, outpath):
     df = pd.DataFrame({'feat_importance': feat_importance}, index=feat_labels)
     df = df.sort_values("feat_importance", ascending=False)
     df = df.round(decimals=3)
+    plt.rcParams['figure.dpi'] = 300
+    plt.rcParams['savefig.dpi'] = 300
 
     ax = df.plot(
         kind='barh',
@@ -106,6 +108,7 @@ def visualize_subgraph(explanation, data, node_idx, outpath):
     G = nx.relabel_nodes(G, mapping)
 
     pos = nx.spring_layout(G, seed=123)
+    plt.rcParams["figure.figsize"] = (10,7)
     ax = plt.gca()
     for source, target, data in G.edges(data=True):
         ax.annotate(
