@@ -16,14 +16,26 @@ Model performance was determined by taking the average classification accuracy o
 * Topology Adaptive Graph Convolutional Network (~82.2%)
 
 ## Getting Started
-1. Create a [TigerGraph](https://tgcloud.io/) account and launch an "ML Bundle" database cluster. Save the cluster's domain name in `config/tigergraph.json`.
+1. Launch a docker container with the following command
+```bash
+docker run -it srgelinas/dsc180b_eth_fraud:latest
+```
+2. Clone the repository and `cd` to the project directory:
+```bash
+git clone https://github.com/KazumaYamamoto2023/DSC180B-Q2-Project.git
+```
 
-2. Open [GraphStudio](https://tgcloud.io/app/tools/GraphStudio/) and create a new graph named 'Ethereum'
+3. Create a [TigerGraph](https://tgcloud.io/) account and launch an "ML Bundle" database cluster. Save the cluster's domain name in `config/tigergraph.json`.
 
-3. Open [AdminPortal](https://tgcloud.io/app/tools/Admin%20Portal/) and navigate to the "Management" tab and select "Users." Generate a secret alias and secret value, and save the secret value in `config/tigergraph.json`.
+4. Open [GraphStudio](https://tgcloud.io/app/tools/GraphStudio/) and create a new graph named 'Ethereum'
 
-4. Run `python run.py eth` to connect to the TigerGraph database instance, build the graph schema, load the dataset, and evaluate the models
+5. Open [AdminPortal](https://tgcloud.io/app/tools/Admin%20Portal/) and navigate to the "Management" tab and select "Users." Generate a secret alias and secret value, and save the secret value in `config/tigergraph.json`.
+
+6. Run the following command to connect to the TigerGraph database instance, build the graph schema, load the dataset, and evaluate the models
     * This process is detailed in `notebooks/tg_data_loading.ipynb`
+```bash
+python run.py eth
+```
 
 ## Project Structure 
 ```bash
