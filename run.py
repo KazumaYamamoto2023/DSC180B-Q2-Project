@@ -81,12 +81,12 @@ def main():
 
 
     ########################## Node2Vec ##############################
-    # data, device, n2v, loader, optimizer = node2vec.initialize(data)
-    # node2vec.train(device, n2v, loader, optimizer)
-    # n2v_acc = node2vec.evaluate()
-    # print("---------------------------------------------------------")
-    # print("Node2Vec Testing Accuracy: " + str(n2v_acc))
-    # print("---------------------------------------------------------")
+    data, device, n2v, loader, optimizer = node2vec.initialize(data)
+    node2vec.train(device, n2v, loader, optimizer)
+    n2v_acc = node2vec.evaluate()
+    print("---------------------------------------------------------")
+    print("Node2Vec Testing Accuracy: " + str(n2v_acc))
+    print("---------------------------------------------------------")
     ################## Avg Testing Accuracy: 76.6%  ##################
 
 
