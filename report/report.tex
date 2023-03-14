@@ -73,12 +73,34 @@
     
 	Due to the potential cybercrimes that may occur from blockchain, many studies have been conducted to detect suspicious transactions in expansive financial networks. Some of these studies have utilized timestamps, incidental expenses, or the number of transactions as their features for their models. In addition, some studies have also utilized graph embeddings for model optimization and evaluation of fraud detection. However, there are only a few studies out that have been conducted using graph neural network (GNN) models. Recently, a deep learning approach graph convolution algorithm has been popularized to automatically generate features using nodes and edges of graphs. The Graph Convolutional Model (GCN) applies neural network models to graph data, and it learns by updating feature values of each node and edge based on the graph structure. 
 
+    In our study, we will use public Ethereum transaction networks as our graph data, and we will examine GNN in comparison to multiple other traditional models to determine the most effective method in detecting phishing fraud transactions. To achieve this, a graph is first constructed from the Ethereum transaction data, then we incorporate graph models such as GCN, GraphSage, and Graph Attention Network (GAT). The performance of these models is then compared to traditional models such as XGBoost, K-Nearest Neighbors (KNN), and Support Vector Machines (SVM). Our source code is available here. 
 
-In our study, we will use public Ethereum transaction networks as our graph data, and we will examine GNN in comparison to multiple other traditional models to determine the most effective method in detecting phishing fraud transactions. To achieve this, a graph is first constructed from the Ethereum transaction data, then we incorporate graph models such as GCN, GraphSage, and Graph Attention Network (GAT). The performance of these models is then compared to traditional models such as XGBoost, K-Nearest Neighbors (KNN), and Support Vector Machines (SVM). Our source code is available here. 
-	
 \begin{center}
 \url{https://github.com/KazumaYamamoto2023/DSC180B-Q2-Project}
 \end{center}
+
+\subsection{Why Graph?}
+Networks are a type of graph-structured data which is often used to describe the relationship between objects. Recently, there’s been an explosive growth in utilizing network data to model interactions and represent data in social networks, biological systems, supply chain networks, and financial transactions.
+
+Network embedding is a technique that represents graph nodes in a network as dense and low-dimensional vectors, while preserving their structural information and relationships. The goal is to capture the latent features and patterns of the network, which can be used for various downstream tasks such as node classification, link prediction, and clustering. The process involves training a machine learning model on the network data and generating embeddings that minimize the difference between predicted and observed edges or node attributes. Network embeddings have various applications and can help uncover hidden patterns and insights in the network data.
+
+Modeling fraud detection in Ethereum transaction networks as a graph machine learning task can be achieved with TigerGraph NoSQL graph databases. TigerGraph allows us to store our Ethereum transaction network as a graph with defined schemas for nodes (wallets) and edges (transactions). Additionally TigerGraph’s proprietary graph query language, GSQL, enables computation of graph analytics with scalable queries. In our project, we utilized TigerGraph as a database to store our transaction network as a graph, conducted exploratory data analysis using GSQL queries, and engineered nodes with additional graph features by calculating summary statistics of transaction amounts (maximum, minimum, sum, average), indegree and outdegree, and pagerank.
+
+\subsection{Data Description}
+The dataset contains transaction records of 445 phishing accounts and 445 non-phishing accounts of Ethereum. We obtain 445 phishing accounts labeled by Etherscan and the same number of randomly selected unlabeled accounts as our objective nodes. The dataset can be used to conduct node classification of financial transaction networks.
+
+We collect the transaction records based on an assumption that for a typical money transfer flow centered on a phishing node, the previous node of the phishing node may be a victim, and the next one to three nodes may be the bridge nodes with money laundering behaviors, as figure shows. Therefore, we collect subgraphs by K-order sampling with K-in = 1, K-out = 3 for each of the 890 objective nodes and then splice them into a large-scale network with 86,623 nodes and 106,083 edges.
+
+The dataset can be downloaded from XBlock, one of the largest blockchain data platforms that collects current mainstream blockchain data and has the widest coverage in the academic community.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/GCZGmd.md.jpg}
+	\caption{Schematic Illustration of a Directed K-Order Subgraph for Node Classification}
+\end{figure}
+
+\subsection{Processing}
+We define fraud detection in Ethereum transaction networks as a node classification problem. We will represent the transaction network as a graph where nodes represent wallets/accounts and edges represent transactions between accounts. Each node in the network has the following features: id, indegree, outdegree, minimum sent, minimum sent, total sent, average sent, minimum received, maximum received, total received, average received, pagerank and label. Each edge in the network has one associated feature, the transaction timestamp. The labelled transaction data were split into 80\% training and 20\% testing sets. Our goal is to learn a function mapping node attributes to a label associated with account identity, whether the target account is fraudulent or not.
 
 
 \section{Methods}
@@ -115,7 +137,7 @@ In our study, we will use public Ethereum transaction networks as our graph data
 \section{Results}
     We conducted a comparative model performance evaluation experiment using graph and non-graph models to detect phishing fraud accounts against an Ethereum transaction network. Graph-based features improve overall model performance for both graph-based and non-graph-based models. Graph neural networks, specifically TA-GCN, performed best in the fraud detection task, as GNNs are able to learn the networks’ structural information. 
 
-    Model performance was determined by taking the average classification accuracy on the testing set over 10 model runs. The resulting classifier performance for this prediction task are shown in Table 1:
+    Model performance was determined by taking the average classification accuracy on the testing set over 10 model runs. The resulting classifier performance for this prediction task are shown in Table 1 and the most important features for predicting fraudulent wallets are total\_recv and min\_recv, shown in Figure 2.
     
 \begin{table}[h]
 \centering
@@ -143,8 +165,6 @@ In our study, we will use public Ethereum transaction networks as our graph data
 \caption{Performance of each model}
 \end{table}
 
-    The most important features for predicting fraudulent wallets are pagerank and the maximum amount of ETH sent between wallets as shown in Figure 1.
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\linewidth]{images/tagcn_feat_imp.png}
@@ -166,5 +186,27 @@ In our study, we will use public Ethereum transaction networks as our graph data
 \section{Appendix}
 	Blockchain technology has been growing in use through its widespread applications in the financial field. However, it has recently attracted increasing cybercrimes with phishing fraud emerging as a major threat to blockchain security. With graph-based machine learning approaches, we can more effectively flag fraudulent activity in Ethereum networks, to reduce the amount of phishing activity with Ethereum, and increase user trust with safe transactions as blockchain technology gains widespread adoption. This problem is similar to our Quarter 1 project in that we are attempting to classify nodes from a network of nodes and edges. However, in Quarter 1 our project required text to be present in the data since we were using TextGCN to classify the nodes. This quarter, our project will not require any text and will rely more heavily on the weights on the edges between nodes in the form of transaction amount. We aim to achieve a high accuracy while working with less information per node-edge than before. There have been some similar analyses in the past, most notably by one of our mentors, Parker Erickson, who has done some analyses into fraud detection using TigerGraph with Graph Attention Networks. However, we propose that we use a richer selection of models and pull more meaningful features from our dataset. We extracted additional node features using GSQL queries by utilizing our dataset’s multigraph structure. We computed features of in-degree and out-degree, weighted by the total number of transactions between nodes. Additionally, we computed additional summary statistics such as the sum, mean, minimum and maximum amount of Ethereum sent and received between addresses. We also chose to evaluate the performance of four additional models: Graph Convolution Networks, Node2Vec, GraphSAGE, and Topology Adaptive Graph Convolution Networks. We believe this richer selection of models will lead to better performance in our prediction task, relative to that of Graph Attention Networks, due to the sparsity of our transaction graph’s structure. We will evaluate each model by taking the mean testing accuracy in 10 model runs. Our primary output will be a website. Our paper will be successful because we already have access to a dataset with the exact information we need. The dataset contains nodes of accounts and edges of transactions, which is what we are looking for to run node classification.
 
+\begin{thebibliography}{}
+\bibitem{}
+Alin Deutsch, Yu Xu, Mingxi Wu, Victor Lee: “TigerGraph: A Native MPP Graph Database”, 2019; arXiv:1901.08248
+
+\bibitem{}
+Jiajing Wu, Qi Yuan, Dan Lin, Wei You, Weili Chen, Chuan Chen, Zibin Zheng: “Who Are the Phishers? Phishing Scam Detection on Ethereum via Network Embedding”, 2019, TSMC.2020.3016821; arXiv:1911.09259
+
+\bibitem{}
+Jiajing Wu, Dan Lin, Zibin Zheng, Qi Yuan: “T-EDGE: Temporal Weighted MultiDiGraph Embedding for Ethereum Transaction Network Analysis”, 2019, Front. Phys. 8:204 (2020); arXiv:1905.08038
+
+\bibitem{}
+Panpan Li, Yunyi Xie, Xinyao Xu, Jiajun Zhou, Qi Xuan: “Phishing Fraud Detection on Ethereum using Graph Neural Network”, 2022; arXiv:2204.08194
+
+\bibitem{}
+Jian Du, Shanghang Zhang, Guanhang Wu, Jose M. F. Moura, Soummya Kar: “Topology Adaptive Graph Convolutional Networks”, 2017; arXiv:1710.10370
+
+\bibitem{}
+Mark Cheung, John Shi, Lavender Yao Jiang, Oren Wright, José M. F. Moura: “Pooling in Graph Convolutional Neural Networks”, 2020; arXiv:2004.03519
+
+\bibitem{}
+Hiroki Kanezashi, Toyotaro Suzumura, Xin Liu, Takahiro Hirofuchi: “Ethereum Fraud Detection with Heterogeneous Graph Neural Networks”, 2022; arXiv:2203.12363
+\end{thebibliography}
 
 \end{document}
